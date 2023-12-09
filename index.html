@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dopamine Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .table-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .table-container div {
+            flex: 1;
+        }
+
+        .table {
+            width: 100%;
+            border: 1px solid #000;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-blue {
+            background-color: #c0e6f9; /* Azul */
+        }
+
+        .table-red {
+            background-color: #f9c0c0; /* Vermelho */
+        }
+
+        .table-green {
+            background-color: #c0f9c0; /* Verde */
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%; /* Ajuste a largura conforme necessário */
+        }
+
+        .recompensas-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .recompensas-container table {
+            width: 100%;
+            border: 1px solid #000;
+            margin-top: 10px; /* Ajuste a margem conforme necessário */
+        }
+    </style>
+</head>
+<body>
+    <h1>Dopamine Tracker</h1>
+
+    <div class="table-container">
+        <div class="table-blue">
+            <h2>Dopamina Positiva</h2>
+            <form action="/adicionar_atividade" method="post">
+                <table class="table">
+                    <tr>
+                        <th>Atividade</th>
+                        <th>Pontos</th>
+                        <th>Quantidade</th>
+                    </tr>
+                    {% for atividade, pontos in dopaminas_positivas.items() %}
+                        <tr>
+                            <td>{{ atividade }}</td>
+                            <td>{{ pontos }}</td>
+                            <td>
+                                <input type="hidden" name="atividade_positiva" value="{{ atividade }}">
+                                <input type="number" name="quantidade_positiva_{{ atividade }}">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
+        
+        <div class="table-red">
+            <h2>Dopamina Negativa</h2>
+            <form action="/adicionar_atividade" method="post">
+                <table class="table">
+                    <tr>
+                        <th>Atividade</th>
+                        <th>Pontos</th>
+                        <th>Quantidade</th>
+                    </tr>
+                    {% for atividade, pontos in dopaminas_negativas.items() %}
+                        <tr>
+                            <td>{{ atividade }}</td>
+                            <td>{{ pontos }}</td>
+                            <td>
+                                <input type="hidden" name="atividade_negativa" value="{{ atividade }}">
+                                <input type="number" name="quantidade_negativa_{{ atividade }}">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
+        
+        <div class="table-green">
+            <h2>Recompensas</h2>
+            <form action="/adicionar_recompensa" method="post">
+                <table class="table">
+                    <tr>
+                        <th>Recompensa</th>
+                        <th>Custo</th>
+                    </tr>
+                    {% for recompensa, custo in recompensas.items() %}
+                        <tr>
+                            <td>{{ recompensa }}</td>
+                            <td>{{ custo }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <h3>Total de Pontos: {{ total_pontos }}</h3>
+                <h2>Adicionar Recompensa</h2>
+                <label for="recompensa">Recompensa:</label>
+                <input type="text" name="recompensa">
+                <label for="custo">Custo:</label>
+                <input type="number" name="custo">
+                <button type="submit">Adicionar Recompensa</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button type="submit">Adicionar</button>
+    </div>
+
+</body>
+</html>
